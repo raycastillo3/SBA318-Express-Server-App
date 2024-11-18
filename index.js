@@ -9,6 +9,9 @@ const reviews = require('./routes/reviews');
 const products = require('./routes/products');
 const error = require('./utilities/error');
 
+//Parsing Middleware:
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json({extended: true}));
 
 // Logging Middleware:
 app.use((req, res, next) =>{
@@ -37,8 +40,8 @@ app.get("/", (req, res) =>{
                 href: "/api",
                 rel: "api",
                 type: "GET",
-            }
-        ]
+            },
+        ],
     });
 });
 
