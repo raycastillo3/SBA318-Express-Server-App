@@ -1,10 +1,11 @@
 const express = require('express'); 
 const bodyParser = require('body-parser'); 
+const path = require('path');
 const app = express();
 const port = 3000;
 
-app.set("View engine", "pug");
-app.set("Views", "views"); 
+app.set("view engine", "pug");
+app.set("views", "views"); 
 
 // ROUTES
 const users = require('./routes/users');
@@ -16,6 +17,7 @@ const error = require('./utilities/error');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({extended: true}));
 
+app.use(express.static(path.join(__dirname, "public")));
 // Logging Middleware:
 app.use((req, res, next) =>{
     const time = new Date();

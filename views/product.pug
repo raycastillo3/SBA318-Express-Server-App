@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1.text-center.mb-4 #{product.name}
+  .card.col-lg-4
+    .card-body
+      h5.card-title #{product.name}
+      p.card-text #{product.description}
+      p.text-muted Category: #{product.category}
+      p.text-muted Price: $#{product.price}
+      p.text-muted Rating: #{product.rating}

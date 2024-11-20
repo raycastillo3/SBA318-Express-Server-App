@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1.text-center.mb-4 User and Product Reviews
+  if reviews.length
+    .row
+      each review in reviews
+        .col-md-6.mb-4
+          .card
+            .card-body
+              h5.card-title Review by User #{review.userId} for Product #{review.productId}
+              p.card-text #{review.comment}
+              p.text-muted Rating: #{review.rating}/5
+              p.text-muted Date: #{review.date}
+  else
+    p.text-center No reviews available.

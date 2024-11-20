@@ -1,0 +1,18 @@
+body {
+    background-color: #f8f9fa; 
+    font-family: Arial, sans-serif;
+}
+  
+h1 {
+color: #343a40; 
+text-align: center;
+}
+
+.card {
+margin: 20px;
+border: 1px solid #dee2e6; 
+}
+
+.card-body {
+background-color: #ffffff;
+}

@@ -2,29 +2,21 @@ const express = require('express');
 const router = express.Router(); 
 
 const reviews = require('../data/reviews'); 
-const { error } = require('console');
+const error = require('../utilities/error');
 
 router
     .route('/')
     .get((req, res, next) => { 
+        let userReviews = reviews;
         if (req.query.userId) {
             const userId = parseInt(req.query.userId);
-            const userReviews = reviews.filter((r) => r.userId == userId);
-            return res.json({userId: userId, reviews: userReviews})
+            userReviews = reviews.filter((r) => r.userId == userId);
         }
         if (req.query.productId) {
             const productId = parseInt(req.query.productId);
-            const productReviews = reviews.filter((r) => r.productId == productId);
-            return res.json({productId: productId, reviews: productReviews})
+            userReviews = reviews.filter((r) => r.productId == productId);
         }
-    const links = [
-        {
-            href: "reviews/:id",
-            rel: "id",
-            type: "GET"
-        }
-    ];
-    res.json({reviews, links})
+        res.render("reviews", {reviews: userReviews})
     })
     .post((req, res, next) => {
         if (req.body.userId && req.body.productId && req.body.rating && req.body.comment && req.body.date) {

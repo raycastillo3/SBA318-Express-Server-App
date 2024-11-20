@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1.text-center.mb-4 Product Catalog
+  .row
+    each item in items
+      .col-md-4.mb-4
+        .card
+          .card-body
+            h5.card-title #{item.name}
+            p.card-text #{item.description}
+            p.text-muted Category: #{item.category}
+            p.text-muted Price: $#{item.price}
+            p.text-muted Rating: #{item.rating}
+
