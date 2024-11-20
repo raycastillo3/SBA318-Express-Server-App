@@ -1,16 +1,16 @@
 const reviews = [
     {
-        id: 1001,
+        id: 1,
         userId: 1,
-        productId: 101,
+        productId: 1,
         rating: 5,
         comment: "Amazing sound quality and battery life!",
         date: "2024-11-15"
       },
       {
-        id: 1002,
+        id: 2,
         userId: 2,
-        productId: 102,
+        productId: 2,
         rating: 4,
         comment: "Very comfortable and durable, but slightly pricey.",
         date: "2024-11-14"

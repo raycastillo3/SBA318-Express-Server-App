@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
+app.set("View engine", "pug");
+app.set("Views", "views"); 
+
 // ROUTES
 const users = require('./routes/users');
 const reviews = require('./routes/reviews');

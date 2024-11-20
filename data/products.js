@@ -1,6 +1,6 @@
 const products = [
     {
-        id: 101,
+        id: 1,
         name: "Wireless Headphones",
         category: "Electronics",
         price: 59.99,
@@ -8,7 +8,7 @@ const products = [
         rating: 4.7
       },
       {
-        id: 102,
+        id: 2,
         name: "Running Shoes",
         category: "Footwear",
         price: 89.99,
