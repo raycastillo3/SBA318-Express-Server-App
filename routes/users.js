@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const users = require('../data/users'); 
-const reviews = require('../data/reviews'); 
-
+const reviews = require('../data/reviews');
 const error = require('../utilities/error')
 
 router
@@ -56,37 +55,37 @@ router
 
         if (user) res.json({user, links});
         else next();
-    })
-    .patch((req, res, next) => {
-        const user = users.find((u, i) =>{
-            if (u.id == req.params.id) {
-                for (const key in req.body) {
-                    users[i][key] = req.body[key];
-                }
-                return true;
+})
+.patch((req, res, next) => {
+    const user = users.find((u, i) =>{
+        if (u.id == req.params.id) {
+            for (const key in req.body) {
+                users[i][key] = req.body[key];
             }
-        });
-        if (user) res.json(user);
-        else next();
-    })
-    .delete((req, res, next) => {
-        const user = users.find((u, i) =>{
-            if (u.id == req.params.id) {
-                users.splice(i, 1);
-                return true;
-            }
-        });
+            return true;
+        }
+    });
+    if (user) res.json(user);
+    else next();
+})
+.delete((req, res, next) => {
+    const user = users.find((u, i) =>{
+        if (u.id == req.params.id) {
+            users.splice(i, 1);
+            return true;
+        }
+    });
 
-        if (user) res.json(user);
-        else next();
-    })
+    if (user) res.json(user);
+    else next();
+})
 
 
 router
     .route("/:id/reviews")
     .get((req, res, next) => {
         if (req.query.productId) {
-            const productId = parseInt(req.query.productId);
+            const productId = parseInt(req.query.productId, 10);
             const userReviews = reviews.filter((r) => r.userId == productId);
 
             res.json({productId: productId, reviews: userReviews}); 
@@ -94,7 +93,7 @@ router
             if (isNaN(productId)) return next((error(400, "Invalid product ID ")))
         }
 
-        const id = parseInt(req.params.id);
+        const id = parseInt(req.params.id, 10);
         const userReviews = reviews.filter((r) => r.id == id);
         res.json({userId: id, reviews: userReviews})
     })

@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  .container
+    h2 Reviews for #{product.name}
+    each review in reviews
+      .card
+        .card-body
+          h5.card-title= review.comment
+          p.card-text= `Rating: ${review.rating}`
+          p.card-text= `Reviewed by User ID: ${review.userId}`
+          p.card-text= `Date: ${review.date}`
+    .mt-3
+    form(action="/reviews" method="POST")
+      input(type="hidden" name="productId" value=product.id)
+      textarea(name="comment" placeholder="Write a review..." required)
+      input(type="number" name="rating" placeholder="Rating (1-5)" min="1" max="5" required)
+      input(type="submit" value="Submit Review" class="btn btn-primary")

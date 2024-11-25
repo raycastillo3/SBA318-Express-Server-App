@@ -1,16 +1,107 @@
 extends layout
 
 block content
-  h1.text-center.mb-4 User and Product Reviews
+  h1.text-center.mb-4 Reviews for Product #{productId}
+
   if reviews.length
     .row
       each review in reviews
-        .col-md-6.mb-4
+        .col-md-4.mb-3
           .card
             .card-body
-              h5.card-title Review by User #{review.userId} for Product #{review.productId}
+              h5.card-title User ID: #{review.userId}
+              h6.card-subtitle.mb-2.text-muted Rating: #{review.rating}
               p.card-text #{review.comment}
-              p.text-muted Rating: #{review.rating}/5
-              p.text-muted Date: #{review.date}
+              small.text-muted Date: #{review.date}
+              div(class="review-card")
+                form(class="delete-review-form" data-review-id=review.id)
+                  input(type="hidden" name="_method" value="DELETE")
+                  button(type="button" class="btn btn-danger delete-review-btn") Delete
+                button(type="button" class="btn btn-warning update-review-btn" data-review-id=review.id data-review-rating=review.rating data-review-comment=review.comment) Update
+
   else
-    p.text-center No reviews available.
+    p.text-muted No reviews for this product yet.
+
+  h2 Add a Review
+  form(action="/api/reviews" method="POST" class="mt-4")
+    input(type="hidden" name="productId" value=productId)
+    .mb-3
+      label(for="userId") User ID:
+      input.form-control(type="text" name="userId" required)
+    .mb-3
+      label(for="rating") Rating (1-5):
+      input.form-control(type="number" name="rating" min="1" max="5" required)
+    .mb-3
+      label(for="comment") Comment:
+      textarea.form-control(name="comment" rows="3" required)
+    .mb-3
+      label(for="date") Date:
+      input.form-control(type="date" name="date" required)
+    button.btn.btn-primary(type="submit") Submit 
+
+
+  .modal.fade(id="updateReviewModal" tabindex="-1" aria-labelledby="updateReviewModalLabel" aria-hidden="true")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+          h5.modal-title(id="updateReviewModalLabel")
+        .modal-body
+          form(id="updateReviewForm" method="POST")
+            input(type="hidden" name="_method" value="PATCH")
+            input(type="hidden" name="reviewId" id="modal-review-id")
+            .mb-3
+              label(for="rating") Rating (1-5):
+              input.form-control(type="number" name="rating" id="modal-rating" min="1" max="5" required)
+            .mb-3
+              label(for="comment") Comment:
+              textarea.form-control(name="comment" id="modal-comment" rows="3" required)
+            button.btn.btn-primary(type="submit") Save
+        .modal-footer
+          button(type="button" class="btn btn-secondary" data-bs-dismiss="modal") Close
+
+  script.
+    document.querySelectorAll('.update-review-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const reviewId = this.getAttribute('data-review-id');
+        const reviewRating = this.getAttribute('data-review-rating');
+        const reviewComment = this.getAttribute('data-review-comment');
+
+        document.getElementById('modal-review-id').value = reviewId;
+        document.getElementById('modal-rating').value = reviewRating;
+        document.getElementById('modal-comment').value = reviewComment;
+
+
+        new bootstrap.Modal(document.getElementById('updateReviewModal')).show();
+      });
+    });
+
+
+    document.getElementById('updateReviewForm')
+      .addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const reviewId = document.getElementById('modal-review-id').value;
+        const rating = document.getElementById('modal-rating').value;
+        const comment = document.getElementById('modal-comment').value;
+
+        fetch(`/api/reviews/${reviewId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            rating: rating,
+            comment: comment
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          //- alert('Review updated successfully!');
+          location.reload(); 
+        })
+        .catch(error => {
+          console.error('Error updating review:', error);
+          alert('Failed to update review.');
+        });
+    });

@@ -2,14 +2,18 @@ extends layout
 
 block content
   h1.text-center.mb-4 Product Catalog
-  .row
-    each item in items
-      .col-md-4.mb-4
-        .card
-          .card-body
-            h5.card-title #{item.name}
-            p.card-text #{item.description}
-            p.text-muted Category: #{item.category}
-            p.text-muted Price: $#{item.price}
-            p.text-muted Rating: #{item.rating}
+  .container
+    .row
+      each product in items
+        .col-md-4
+          .card
+            img.card-img-top(src=product.img alt=`Image of ${product.name}`)
+            .card-body
+              h5.card-title #{product.name}
+              p.card-text= product.description
+              p.card-text
+                | Price: $#{product.price}
+              p.card-text
+                | Rating: #{product.rating}
+              a(href=`/api/reviews?productId=${product.id}` class="btn btn-primary mt-3") Review Product
 

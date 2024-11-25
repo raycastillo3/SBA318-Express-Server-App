@@ -1,6 +1,7 @@
 const express = require('express'); 
 const bodyParser = require('body-parser'); 
 const path = require('path');
+const methodOverride = require('method-override')
 const app = express();
 const port = 3000;
 
@@ -17,6 +18,7 @@ const error = require('./utilities/error');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({extended: true}));
 
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, "public")));
 // Logging Middleware:
 app.use((req, res, next) =>{
@@ -37,18 +39,11 @@ app.use("/api/users", users);
 app.use("/api/reviews", reviews);
 app.use("/api/products", products);
 
-//Adding HATEOAS links
+
 app.get("/", (req, res) =>{
-    res.json({
-        links: [
-            {
-                href: "/api",
-                rel: "api",
-                type: "GET",
-            },
-        ],
-    });
-});
+    res.redirect("/api/products")
+})
+
 
 //HATEOAS
 app.get("/api", (req, res) =>{

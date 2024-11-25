@@ -1,11 +1,10 @@
 extends layout
 
 block content
-  h1.text-center.mb-4 #{product.name}
-  .card.col-lg-4
-    .card-body
-      h5.card-title #{product.name}
-      p.card-text #{product.description}
-      p.text-muted Category: #{product.category}
-      p.text-muted Price: $#{product.price}
-      p.text-muted Rating: #{product.rating}
+  h1= product.name
+  p Category: #{product.category}
+  p Price: #{product.price}
+  p Description: #{product.description}
+  p Rating: #{product.rating}
+
+  a(href=`/api/reviews?productId=${product.id}` class="btn btn-primary mt-3") Review Product

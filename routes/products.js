@@ -3,7 +3,7 @@ const router = express.Router();
 const products = require('../data/products'); 
 const reviews = require('../data/reviews');
 
-const error = require('../utilities/error');
+const error = require('../utilities/error')
 
 router
     .route('/')
@@ -34,21 +34,9 @@ router
         }
         else next();
     })
-        
-router
-    .route("/:id/reviews")
-    .get((req, res, next) => {
-        if (req.query.userId) {
-            const userId = parseInt(req.query.userId); 
-            const userReviews = reviews.filter((r) => r.id == userId); 
-            if (isNaN(userId)) return next(error(400, "Invalid user ID"))
-            res.json({userId: userId, reviews: userReviews})
-        }
 
-        const productId = parseInt(req.params.id); 
-        const userReviews = reviews.filter((r) => r.id == productId); 
-        res.json({productId: productId, reviews: userReviews}); 
-    })
+
+    
 
     
     
